@@ -3,7 +3,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/clinica",
+      "launchUrl": "weatherforecast",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -12,9 +12,8 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/clinica",
-      "applicationUrl": "http://localhost:5000",
-      "applicationUrl": "http://localhost:5000",
-      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000"
     }
@@ -26,17 +25,6 @@
     "iisExpress": {
       "applicationUrl": "http://localhost:20511",
       "sslPort": 0
-      "applicationUrl": "http://localhost:5000",
-      "applicationUrl": "http://localhost:5000",
-      "applicationUrl": "http://localhost:5000",
-      "applicationUrl": "http://localhost:5000",
-      "applicationUrl": "http://localhost:5000",
-      "applicationUrl": "http://localhost:5000",
-      "applicationUrl": "http://localhost:5000",
-      "applicationUrl": "http://localhost:5000",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
     }
   }
 }
