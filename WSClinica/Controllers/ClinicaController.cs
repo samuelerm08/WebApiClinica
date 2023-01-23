@@ -18,7 +18,7 @@ namespace WSClinica.Controllers
         {
             this.context = context;
         }
-       
+         
         // Get
         [HttpGet]
         public ActionResult<IEnumerable<Clinica>> GetClinica()
@@ -36,17 +36,16 @@ namespace WSClinica.Controllers
             return clinica;
         }
        
-        //UPDATE
-        //PUT api/autor/{id}
+        //UPDATE        
         [HttpPut("{id}")]
-        public ActionResult Put(int id, Paciente paciente)
+        public ActionResult Put(int id, Clinica clinica)
         {
-            if (id != paciente.PacienteId)
+            if (id != clinica.ClinicaId)
             {
                 return BadRequest();
             }
 
-            context.Entry(paciente).State = EntityState.Modified;
+            context.Entry(clinica).State = EntityState.Modified;
             context.SaveChanges();
             return Ok();
         }
@@ -65,8 +64,7 @@ namespace WSClinica.Controllers
             return Ok();
         }
 
-        //DELETE
-        //DELETE api/autor/{id}
+        //DELETE        
         [HttpDelete("{id}")]
         public ActionResult<Clinica> Delete(int id)
         {
@@ -81,7 +79,6 @@ namespace WSClinica.Controllers
 
             context.Clinicas.Remove(clinica);
             context.SaveChanges();
-
             return clinica;
 
         }
