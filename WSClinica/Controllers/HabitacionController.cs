@@ -22,5 +22,50 @@ namespace WSClinica.Controllers
         {
             return context.Habitaciones.ToList();
         }
+
+        [HttpGet("{id}")]
+        public ActionResult<Habitacion> Get(int id)
+        {
+            return context.Habitaciones.Find(id);
+        }
+
+        [HttpPost]
+        public ActionResult Create(Habitacion habitacion)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            context.Habitaciones.Add(habitacion);
+            context.SaveChanges();
+
+            return Ok(0);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult Update(int id, [FromBody] Habitacion habitacion)
+        {
+            if (id != habitacion.HabitacionId)
+            {
+                return BadRequest();
+            }
+            context.Entry(habitacion).State =Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<Habitacion> Delete(int id)
+        {
+            var habitacion = context.Habitaciones.Find(id);
+            if(habitacion == null)
+            {
+                return NotFound();
+            }
+            context.Habitaciones.Remove(habitacion);
+            context.SaveChanges();
+
+            return habitacion;
+        }
     }
 }
