@@ -50,6 +50,7 @@ namespace WSClinica.Controllers
                 return BadRequest();
             }
             context.Entry(habitacion).State =Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.SaveChanges();
 
             return Ok();
         }
