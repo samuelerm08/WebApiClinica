@@ -10,7 +10,7 @@ using WSClinica.Data;
 namespace WSClinica.Migrations
 {
     [DbContext(typeof(DbClinicaContext))]
-    [Migration("20230123185333_initial")]
+    [Migration("20230123220747_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
