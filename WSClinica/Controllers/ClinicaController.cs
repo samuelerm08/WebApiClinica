@@ -18,12 +18,14 @@ namespace WSClinica.Controllers
         {
             this.context = context;
         }
+       
         // Get
         [HttpGet]
         public ActionResult<IEnumerable<Clinica>> GetClinica()
         {
             return context.Clinicas.ToList();
         }
+        
         //Get por Id
         [HttpGet("{id}")]
         public ActionResult<Clinica> GetByID(int id)
@@ -33,6 +35,7 @@ namespace WSClinica.Controllers
                                select c).SingleOrDefault();
             return clinica;
         }
+       
         //UPDATE
         //PUT api/autor/{id}
         [HttpPut("{id}")]

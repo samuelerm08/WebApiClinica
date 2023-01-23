@@ -12,7 +12,6 @@ namespace WSClinica.Models
         [Column(TypeName = "varchar(50)")]
         [Required]
         public string Nombre { get; set; }
-
         public List<Medico> Medicos { get; set; }
     }
 }

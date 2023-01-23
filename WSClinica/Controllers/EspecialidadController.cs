@@ -17,46 +17,43 @@ namespace WSClinica.Controllers
         {
             this.context = context;
         }
+       
         // Get
         [HttpGet]
         public ActionResult<IEnumerable<Especialidad>> GetClinica()
         {
             return context.Especialidades.ToList();
         }
+
         //Get por Id
         [HttpGet("{id}")]
         public ActionResult<Especialidad> GetByID(int id)
         {
             Especialidad especialidad = (from c in context.Especialidades
-                               where id == c.EspecialidadId
-                               select c).SingleOrDefault();
+                                         where id == c.EspecialidadId
+                                         select c).SingleOrDefault();
             return especialidad;
-        }
-        [HttpPut]
+        }        
+       
         //Put
-
         [HttpPut("{id}")]
-        public ActionResult Put( int id, Especialidad especialidad) //public ActionResult Put(int id, Autor a)
+        public ActionResult Put(int id, Especialidad especialidad)
         {
+            if (id != especialidad.EspecialidadId)
+            {
+                return BadRequest();
+            }
 
-                if (id != especialidad.EspecialidadId)
-                {
-                    return BadRequest();
-                }
-
-                context.Entry(especialidad).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
-            
-
+            context.Entry(especialidad).State = EntityState.Modified;
+            context.SaveChanges();
+            return Ok();
         }
 
         //Post
-
         [HttpPost]
         public ActionResult Post(Especialidad e)
         {
-           if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -67,14 +64,12 @@ namespace WSClinica.Controllers
         }
 
         //Delete
-
         [HttpDelete("{id}")]
-
         public ActionResult<Especialidad> Delete(int id)
         {
             var especialidad = (from e in context.Especialidades
-                         where e.EspecialidadId == id
-                         select e).SingleOrDefault();
+                                where e.EspecialidadId == id
+                                select e).SingleOrDefault();
 
             if (especialidad == null)
             {
