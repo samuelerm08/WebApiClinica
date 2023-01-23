@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using WSClinica.Data;
@@ -17,14 +18,16 @@ namespace WSClinica.Controllers
         {
             this.context = context;
         }
+         
         // Get
         [HttpGet]
         public ActionResult<IEnumerable<Clinica>> GetClinica()
         {
             return context.Clinicas.ToList();
         }
+        
         //Get por Id
-        [HttpGet("{id}") ]
+        [HttpGet("{id}")]
         public ActionResult<Clinica> GetByID(int id)
         {
             Clinica clinica = (from c in context.Clinicas
@@ -32,14 +35,52 @@ namespace WSClinica.Controllers
                                select c).SingleOrDefault();
             return clinica;
         }
-        [HttpPut]
-        //Put
-        public ActionResult Put(Clinica clinica)
+       
+        //UPDATE        
+        [HttpPut("{id}")]
+        public ActionResult Put(int id, Clinica clinica)
         {
+            if (id != clinica.ClinicaId)
+            {
+                return BadRequest();
+            }
+
+            context.Entry(clinica).State = EntityState.Modified;
+            context.SaveChanges();
+            return Ok();
+        }
+
+        //INSERT
+        [HttpPost]
+        public ActionResult Post(Clinica clinica)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            context.Clinicas.Add(clinica);
+            context.SaveChanges();
+            return Ok();
+        }
+
+        //DELETE        
+        [HttpDelete("{id}")]
+        public ActionResult<Clinica> Delete(int id)
+        {
+            var clinica = (from p in context.Clinicas
+                           where p.ClinicaId == id
+                           select p).SingleOrDefault();
+
+            if (clinica == null)
+            {
+                return NotFound();
+            }
+
+            context.Clinicas.Remove(clinica);
+            context.SaveChanges();
+            return clinica;
 
         }
-        
-        //Post
-        //Delete
     }
 }
