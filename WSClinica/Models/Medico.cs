@@ -29,3 +29,4 @@ namespace WSClinica.Models
         [ForeignKey("EspecialidadId")]
         public Especialidad Especialidad { get; set; }
     }
+}
