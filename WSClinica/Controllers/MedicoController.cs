@@ -7,82 +7,79 @@ using WSClinica.Models;
 
 namespace WSClinica.Controllers
 {
-    public class MedicoController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class MedicoController : ControllerBase
     {
-        [Route("api/[controller]")]
-        [ApiController]
-        public class ClinicaController : ControllerBase
+        private readonly DbClinicaContext context;
+
+        public MedicoController(DbClinicaContext context)
         {
-            private readonly DbClinicaContext context;
+            this.context = context;
+        }
 
-            public ClinicaController(DbClinicaContext context)
-            {
-                this.context = context;
-            }
+        // Get
+        [HttpGet]
+        public ActionResult<IEnumerable<Medico>> GetClinica()
+        {
+            return context.Medicos.ToList();
+        }
 
-            // Get
-            [HttpGet]
-            public ActionResult<IEnumerable<Medico>> GetClinica()
-            {
-                return context.Medicos.ToList();
-            }
-
-            //Get por Id
-            [HttpGet("{id}")]
-            public ActionResult<Medico> GetByID(int id)
-            {
-                Medico medico = (from m in context.Medicos
-                                 where id == m.MedicoId
-                                 select m).SingleOrDefault();
-                return medico;
-            }            
-
-            //Put                        
-            [HttpPut("{id}")]
-            public ActionResult Put(int id, Medico m)
-            {
-                if (id != m.MedicoId)
-                {
-                    return BadRequest();
-                }
-
-                context.Entry(m).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
-            }
-
-            //Post
-            [HttpPost]
-            public ActionResult Post(Medico m)
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                context.Medicos.Add(m);
-                context.SaveChanges();
-                return Ok();
-            }
-
-            //Delete
-            [HttpDelete("{id}")]
-            public ActionResult<Medico> Delete(int id)
-            {
-                var medico = (from m in context.Medicos
-                             where m.MedicoId == id
+        //Get por Id
+        [HttpGet("{id}")]
+        public ActionResult<Medico> GetByID(int id)
+        {
+            Medico medico = (from m in context.Medicos
+                             where id == m.MedicoId
                              select m).SingleOrDefault();
+            return medico;
+        }
 
-                if (medico == null)
-                {
-                    return NotFound();
-                }
-
-                context.Medicos.Remove(medico);
-                context.SaveChanges();
-
-                return medico;
+        //Put                        
+        [HttpPut("{id}")]
+        public ActionResult Put(int id, Medico m)
+        {
+            if (id != m.MedicoId)
+            {
+                return BadRequest();
             }
+
+            context.Entry(m).State = EntityState.Modified;
+            context.SaveChanges();
+            return Ok();
+        }
+
+        //Post
+        [HttpPost]
+        public ActionResult Post(Medico m)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            context.Medicos.Add(m);
+            context.SaveChanges();
+            return Ok();
+        }
+
+        //Delete
+        [HttpDelete("{id}")]
+        public ActionResult<Medico> Delete(int id)
+        {
+            var medico = (from m in context.Medicos
+                          where m.MedicoId == id
+                          select m).SingleOrDefault();
+
+            if (medico == null)
+            {
+                return NotFound();
+            }
+
+            context.Medicos.Remove(medico);
+            context.SaveChanges();
+
+            return medico;
         }
     }
 }

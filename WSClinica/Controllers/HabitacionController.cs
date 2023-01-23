@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WSClinica.Data;
 using WSClinica.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace WSClinica.Controllers
 {
@@ -17,6 +18,7 @@ namespace WSClinica.Controllers
         {
             this.context = context;
         }
+        
         [HttpGet]
         public ActionResult<IEnumerable<Habitacion>> Get()
         {
@@ -39,7 +41,7 @@ namespace WSClinica.Controllers
             context.Habitaciones.Add(habitacion);
             context.SaveChanges();
 
-            return Ok(0);
+            return Ok();
         }
 
         [HttpPut("{id}")]
@@ -49,9 +51,8 @@ namespace WSClinica.Controllers
             {
                 return BadRequest();
             }
-            context.Entry(habitacion).State =Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.Entry(habitacion).State = EntityState.Modified;
             context.SaveChanges();
-
             return Ok();
         }
 
@@ -59,13 +60,14 @@ namespace WSClinica.Controllers
         public ActionResult<Habitacion> Delete(int id)
         {
             var habitacion = context.Habitaciones.Find(id);
+
             if(habitacion == null)
             {
                 return NotFound();
             }
+
             context.Habitaciones.Remove(habitacion);
             context.SaveChanges();
-
             return habitacion;
         }
     }
